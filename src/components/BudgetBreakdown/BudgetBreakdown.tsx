@@ -1,6 +1,6 @@
 const BudgetBreakdown = () => {
 	return (
-	<div>
+	<div className="bg-slate-700 text-white">
 		<div>
 			<div>Monthly After Taxes Income</div>
 			<div>Input</div>
