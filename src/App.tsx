@@ -1,12 +1,12 @@
 import BudgetCalculator from "./components/BudgetCalculator/BudgetCalculator";
-import BudgetBreakdown from "./components/BudgetBreakdown/BudgetBreakdown";
+// import BudgetBreakdown from "./components/BudgetBreakdown/BudgetBreakdown";
 
 const App = () => {
   return (
-    <div className="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3">
-      <div>Budget Helper</div>
+    <div className="h-screen w-screen bg-gradient-to-r from-slate-600 to-slate-800">
+      <h1 className="p-4 text-4xl font-bold text-white">Budget Helper</h1>
       <BudgetCalculator />
-      <BudgetBreakdown />
+      {/* <BudgetBreakdown /> */}
     </div>
   );
 };
