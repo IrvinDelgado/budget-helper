@@ -45,7 +45,7 @@ const BudgetCalculator = () => {
           <span>Wants</span>
           <span>Save</span>
         </div>
-        <div className="flex justify-between pb-8">
+        <div className="flex justify-around pb-8">
           <BudgetNumber value={+monthlyIncome * 0.5} />
           <BudgetNumber value={+monthlyIncome * 0.2} />
           <BudgetNumber value={+monthlyIncome * 0.3} />
