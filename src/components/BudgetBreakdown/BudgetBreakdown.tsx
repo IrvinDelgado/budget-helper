@@ -60,6 +60,12 @@ const BudgetBreakdown = () => {
     });
   };
 
+  const totalBreakdownSection = (breakdowns: BudgetBreakdownItemsType[]) => {
+    return breakdowns.reduce((acc, curr) => {
+      return acc + Number(curr.value);
+    }, 0);
+  };
+
   return (
     <Accordion
       variant="contained"
@@ -68,7 +74,9 @@ const BudgetBreakdown = () => {
       classNames={{ root: "pt-4 pr-4 w-full", item: "bg-stone-200" }}
     >
       <Accordion.Item value="needs">
-        <Accordion.Control icon={<HomeIcon />}>Needs</Accordion.Control>
+        <Accordion.Control icon={<HomeIcon />}>
+          Needs ${totalBreakdownSection(needsBreakdown)}
+        </Accordion.Control>
         <Accordion.Panel>
           {needsBreakdown.map((item) => (
             <BudgetBreakdownItems
@@ -91,7 +99,9 @@ const BudgetBreakdown = () => {
         </Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item value="wants">
-        <Accordion.Control icon={<ShoppingCartIcon />}>Wants</Accordion.Control>
+        <Accordion.Control icon={<ShoppingCartIcon />}>
+          Wants ${totalBreakdownSection(wantsBreakdown)}
+        </Accordion.Control>
         <Accordion.Panel>
           {wantsBreakdown.map((item) => (
             <BudgetBreakdownItems
@@ -114,7 +124,9 @@ const BudgetBreakdown = () => {
         </Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item value="save">
-        <Accordion.Control icon={<WalletIcon />}>Save</Accordion.Control>
+        <Accordion.Control icon={<WalletIcon />}>
+          Save ${totalBreakdownSection(savingsBreakdown)}
+        </Accordion.Control>
         <Accordion.Panel>
           {savingsBreakdown.map((item) => (
             <BudgetBreakdownItems
