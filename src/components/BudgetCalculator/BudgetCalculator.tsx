@@ -20,7 +20,7 @@ const BudgetCalculator = () => {
   const [monthlyIncome, setMonthlyIncome] = useState<string | number>("");
 
   return (
-    <div className="m-4 max-h-56 w-1/2 rounded-lg bg-stone-200 p-4">
+    <div className="m-4 max-h-56 w-2/3 rounded-lg bg-stone-200 p-4">
       <div className="flex justify-center">
         <NumberInput
           classNames={{
