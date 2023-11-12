@@ -1,99 +1,10 @@
-import {
-  Accordion,
-  ActionIcon,
-  Group,
-  NumberFormatter,
-  NumberInput,
-  TextInput,
-} from "@mantine/core";
-import {
-  HomeIcon,
-  MinusIcon,
-  PlusIcon,
-  ShoppingCartIcon,
-  WalletIcon,
-} from "../../icons/Icons";
+import { Accordion } from "@mantine/core";
+import { HomeIcon, ShoppingCartIcon, WalletIcon } from "../../icons/Icons";
 import { useState } from "react";
-type BudgetBreakdownItemsType = {
-  name: string;
-  value: string | number;
-};
-
-type BudgetBreakdownAdditionType = {
-  name: string;
-  handleOnNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string | number;
-  handleOnValueChange: (numberValue: string | number) => void;
-  handleOnAddClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-};
-const BudgetBreakdownAddition = ({
-  name,
-  value,
-  handleOnNameChange,
-  handleOnValueChange,
-  handleOnAddClick,
-}: BudgetBreakdownAdditionType) => {
-  return (
-    <Group className="pl-9 pt-4">
-      <TextInput
-        classNames={{
-          input: "bg-slate-500 text-black font-bold bg-stone-300",
-        }}
-        placeholder="Name"
-        value={name}
-        onChange={handleOnNameChange}
-      />
-      <NumberInput
-        classNames={{
-          label: "font-bold",
-          input: "bg-slate-500 text-black font-bold bg-stone-300",
-        }}
-        placeholder="$0.00"
-        hideControls
-        thousandSeparator=","
-        prefix="$"
-        decimalScale={2}
-        fixedDecimalScale
-        value={value}
-        onChange={handleOnValueChange}
-      />
-      <ActionIcon variant="subtle" color="gray" onClick={handleOnAddClick}>
-        <PlusIcon />
-      </ActionIcon>
-    </Group>
-  );
-};
-
-interface IBudgetBreakdownItems {
-  breakdownItem: BudgetBreakdownItemsType;
-  onBreakdownRemoval: (name: string) => void;
-}
-
-const BudgetBreakdownItems = ({
-  breakdownItem,
-  onBreakdownRemoval,
-}: IBudgetBreakdownItems) => {
-  return (
-    <Group className="pl-9" key={breakdownItem.name}>
-      <span className="pr-4 text-stone-700">{breakdownItem.name}</span>
-      <NumberFormatter
-        className={"font-bold text-red-700"}
-        prefix="$"
-        value={breakdownItem.value}
-        thousandSeparator
-        fixedDecimalScale
-        decimalScale={2}
-      />
-      <ActionIcon
-        variant="subtle"
-        color="gray"
-        onClick={() => onBreakdownRemoval(breakdownItem.name)}
-      >
-        <MinusIcon />
-      </ActionIcon>
-    </Group>
-  );
-};
+import BudgetBreakdownAddition from "./BudgetBreakdownAddition";
+import BudgetBreakdownItems, {
+  BudgetBreakdownItemsType,
+} from "./BudgetBreakdownItems";
 
 const BudgetBreakdown = () => {
   const [needsBreakdown, setNeedsBreakdown] = useState<
