@@ -6,60 +6,51 @@ import BudgetBreakdownItems, {
   BudgetBreakdownItemsType,
 } from "./BudgetBreakdownItems";
 
+type BudgetBreakdownFormType = {
+  needs: BudgetBreakdownItemsType[];
+  wants: BudgetBreakdownItemsType[];
+  savings: BudgetBreakdownItemsType[];
+};
+
 const BudgetBreakdown = () => {
-  const [needsBreakdown, setNeedsBreakdown] = useState<
-    BudgetBreakdownItemsType[]
-  >([]);
-  const [wantsBreakdown, setWantsBreakdown] = useState<
-    BudgetBreakdownItemsType[]
-  >([]);
-  const [savingsBreakdown, setSavingsBreakdown] = useState<
-    BudgetBreakdownItemsType[]
-  >([]);
-  const [nBAddtion, setNBAddition] = useState<BudgetBreakdownItemsType>({
+  const emptyBreakDown: BudgetBreakdownItemsType = {
     name: "",
     value: "",
-  });
-  const [wBAddtion, setWBAddition] = useState<BudgetBreakdownItemsType>({
-    name: "",
-    value: "",
-  });
-  const [sBAddtion, setSBAddition] = useState<BudgetBreakdownItemsType>({
-    name: "",
-    value: "",
-  });
-
-  const handleOnNBAddition = () => {
-    setNeedsBreakdown((prev) => [...prev, nBAddtion]);
-    setNBAddition({ name: "", value: "" });
   };
+  const [breakdown, setBreakdown] = useState<BudgetBreakdownFormType>({
+    needs: [],
+    wants: [],
+    savings: [],
+  });
+  const [categoryAddition, setCategoryAddition] = useState({
+    needs: { ...emptyBreakDown },
+    wants: { ...emptyBreakDown },
+    savings: { ...emptyBreakDown },
+  });
 
-  const handleOnNBRemoval = (name: string) => {
-    setNeedsBreakdown((prev) => {
-      return prev.filter((breakdownItem) => breakdownItem.name !== name);
+  const handleAddInCategory = (categoryName: "needs" | "wants" | "savings") => {
+    console.log(categoryName);
+    setBreakdown((prev) => {
+      const addedItem = [...prev[categoryName], categoryAddition[categoryName]];
+      console.log(addedItem);
+      return {
+        ...prev,
+        [categoryName]: addedItem,
+      };
+    });
+    setCategoryAddition((prev) => {
+      return { ...prev, [categoryName]: { ...emptyBreakDown } };
     });
   };
-  const handleOnWBAddition = () => {
-    setWantsBreakdown((prev) => [...prev, wBAddtion]);
-    setWBAddition({ name: "", value: "" });
+  const handleDeleteInCategory = (
+    categoryName: "needs" | "wants" | "savings",
+    name: string,
+  ) => {
+    const filteredCategory = breakdown[categoryName].filter(
+      (breakdownItem) => breakdownItem.name !== name,
+    );
+    setBreakdown((prev) => ({ ...prev, [categoryName]: filteredCategory }));
   };
-
-  const handleOnWBRemoval = (name: string) => {
-    setWantsBreakdown((prev) => {
-      return prev.filter((breakdownItem) => breakdownItem.name !== name);
-    });
-  };
-  const handleOnSBAddition = () => {
-    setSavingsBreakdown((prev) => [...prev, sBAddtion]);
-    setSBAddition({ name: "", value: "" });
-  };
-
-  const handleOnSBRemoval = (name: string) => {
-    setSavingsBreakdown((prev) => {
-      return prev.filter((breakdownItem) => breakdownItem.name !== name);
-    });
-  };
-
   const totalBreakdownSection = (breakdowns: BudgetBreakdownItemsType[]) => {
     return breakdowns.reduce((acc, curr) => {
       return acc + Number(curr.value);
@@ -78,76 +69,100 @@ const BudgetBreakdown = () => {
     >
       <Accordion.Item value="needs">
         <Accordion.Control icon={<HomeIcon />}>
-          Needs ${totalBreakdownSection(needsBreakdown)}
+          Needs ${totalBreakdownSection(breakdown.needs)}
         </Accordion.Control>
         <Accordion.Panel>
-          {needsBreakdown.map((item) => (
+          {breakdown.needs.map((item) => (
             <BudgetBreakdownItems
               key={item.name}
               breakdownItem={item}
-              onBreakdownRemoval={handleOnNBRemoval}
+              onBreakdownRemoval={() =>
+                handleDeleteInCategory("needs", item.name)
+              }
             />
           ))}
           <BudgetBreakdownAddition
-            name={nBAddtion.name}
-            value={nBAddtion.value}
+            name={categoryAddition.needs.name}
+            value={categoryAddition.needs.value}
             handleOnNameChange={(e) =>
-              setNBAddition((prev) => ({ ...prev, name: e.target.value }))
+              setCategoryAddition((prev) => ({
+                ...prev,
+                needs: { ...categoryAddition.needs, name: e.target.value },
+              }))
             }
             handleOnValueChange={(e) =>
-              setNBAddition((prev) => ({ ...prev, value: e }))
+              setCategoryAddition((prev) => ({
+                ...prev,
+                needs: { ...categoryAddition.needs, value: e },
+              }))
             }
-            handleOnAddClick={() => handleOnNBAddition()}
+            handleOnAddClick={() => handleAddInCategory("needs")}
           />
         </Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item value="wants">
         <Accordion.Control icon={<ShoppingCartIcon />}>
-          Wants ${totalBreakdownSection(wantsBreakdown)}
+          Wants ${totalBreakdownSection(breakdown.wants)}
         </Accordion.Control>
         <Accordion.Panel>
-          {wantsBreakdown.map((item) => (
+          {breakdown.wants.map((item) => (
             <BudgetBreakdownItems
               key={item.name}
               breakdownItem={item}
-              onBreakdownRemoval={handleOnWBRemoval}
+              onBreakdownRemoval={() =>
+                handleDeleteInCategory("wants", item.name)
+              }
             />
           ))}
           <BudgetBreakdownAddition
-            name={wBAddtion.name}
-            value={wBAddtion.value}
+            name={categoryAddition.wants.name}
+            value={categoryAddition.wants.value}
             handleOnNameChange={(e) =>
-              setWBAddition((prev) => ({ ...prev, name: e.target.value }))
+              setCategoryAddition((prev) => ({
+                ...prev,
+                wants: { ...categoryAddition.wants, name: e.target.value },
+              }))
             }
             handleOnValueChange={(e) =>
-              setWBAddition((prev) => ({ ...prev, value: e }))
+              setCategoryAddition((prev) => ({
+                ...prev,
+                wants: { ...categoryAddition.wants, value: e },
+              }))
             }
-            handleOnAddClick={() => handleOnWBAddition()}
+            handleOnAddClick={() => handleAddInCategory("wants")}
           />
         </Accordion.Panel>
       </Accordion.Item>
-      <Accordion.Item value="save">
+      <Accordion.Item value="savings">
         <Accordion.Control icon={<WalletIcon />}>
-          Save ${totalBreakdownSection(savingsBreakdown)}
+          Save ${totalBreakdownSection(breakdown.savings)}
         </Accordion.Control>
         <Accordion.Panel>
-          {savingsBreakdown.map((item) => (
+          {breakdown.savings.map((item) => (
             <BudgetBreakdownItems
               key={item.name}
               breakdownItem={item}
-              onBreakdownRemoval={handleOnSBRemoval}
+              onBreakdownRemoval={() =>
+                handleDeleteInCategory("savings", item.name)
+              }
             />
           ))}
           <BudgetBreakdownAddition
-            name={sBAddtion.name}
-            value={sBAddtion.value}
+            name={categoryAddition.savings.name}
+            value={categoryAddition.savings.value}
             handleOnNameChange={(e) =>
-              setSBAddition((prev) => ({ ...prev, name: e.target.value }))
+              setCategoryAddition((prev) => ({
+                ...prev,
+                savings: { ...categoryAddition.savings, name: e.target.value },
+              }))
             }
             handleOnValueChange={(e) =>
-              setSBAddition((prev) => ({ ...prev, value: e }))
+              setCategoryAddition((prev) => ({
+                ...prev,
+                savings: { ...categoryAddition.savings, value: e },
+              }))
             }
-            handleOnAddClick={() => handleOnSBAddition()}
+            handleOnAddClick={() => handleAddInCategory("savings")}
           />
         </Accordion.Panel>
       </Accordion.Item>
