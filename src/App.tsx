@@ -8,7 +8,7 @@ const App = () => {
     <MantineProvider>
       <div className="h-screen w-screen bg-gradient-to-r from-slate-950 to-sky-950">
         <h1 className="p-4 text-4xl font-bold text-white">Budget Helper</h1>
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
           <BudgetCalculator />
           <BudgetBreakdown />
         </div>

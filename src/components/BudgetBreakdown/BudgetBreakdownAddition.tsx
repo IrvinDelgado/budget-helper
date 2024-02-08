@@ -1,12 +1,13 @@
 import { Group, TextInput, NumberInput, ActionIcon } from "@mantine/core";
 import { PlusIcon } from "../../icons/Icons";
+import { useRef } from "react";
 
 type BudgetBreakdownAdditionType = {
   name: string;
   handleOnNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string | number;
   handleOnValueChange: (numberValue: string | number) => void;
-  handleOnAddClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleOnAddClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 const BudgetBreakdownAddition = ({
   name,
@@ -15,9 +16,19 @@ const BudgetBreakdownAddition = ({
   handleOnValueChange,
   handleOnAddClick,
 }: BudgetBreakdownAdditionType) => {
+  const itemNameRef = useRef<HTMLInputElement>(null);
+
+  const handleOnKeyDown = (e: React.KeyboardEvent) => {
+    if (e.code === "Enter" || e.key === "Enter") {
+      handleOnAddClick();
+      itemNameRef.current?.focus();
+    }
+  };
+
   return (
     <Group className="pl-9 pt-4">
       <TextInput
+        ref={itemNameRef}
         classNames={{
           input: "bg-slate-500 text-black font-bold bg-stone-300",
         }}
@@ -38,6 +49,7 @@ const BudgetBreakdownAddition = ({
         fixedDecimalScale
         value={value}
         onChange={handleOnValueChange}
+        onKeyDown={handleOnKeyDown}
       />
       <ActionIcon variant="subtle" color="gray" onClick={handleOnAddClick}>
         <PlusIcon />

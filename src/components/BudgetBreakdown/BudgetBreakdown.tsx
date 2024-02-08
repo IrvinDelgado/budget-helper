@@ -71,7 +71,10 @@ const BudgetBreakdown = () => {
       variant="contained"
       defaultValue={["needs"]}
       multiple
-      classNames={{ root: "pt-4 pr-4 w-full", item: "bg-stone-200" }}
+      classNames={{
+        root: "pt-4 w-full md:pr-4 md:w-full",
+        item: "bg-stone-200",
+      }}
     >
       <Accordion.Item value="needs">
         <Accordion.Control icon={<HomeIcon />}>
