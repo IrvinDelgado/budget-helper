@@ -19,7 +19,7 @@ const BudgetBreakdownAddition = ({
   const itemNameRef = useRef<HTMLInputElement>(null);
 
   const handleOnKeyDown = (e: React.KeyboardEvent) => {
-    if (e.code === "Enter" || e.key === "Enter") {
+    if ((e.code === "Enter" || e.key === "Enter") && value && name) {
       handleOnAddClick();
       itemNameRef.current?.focus();
     }
@@ -51,7 +51,12 @@ const BudgetBreakdownAddition = ({
         onChange={handleOnValueChange}
         onKeyDown={handleOnKeyDown}
       />
-      <ActionIcon variant="subtle" color="gray" onClick={handleOnAddClick}>
+      <ActionIcon
+        disabled={!name || !value}
+        variant="subtle"
+        color="gray"
+        onClick={handleOnAddClick}
+      >
         <PlusIcon />
       </ActionIcon>
     </Group>

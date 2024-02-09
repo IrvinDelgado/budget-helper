@@ -29,7 +29,6 @@ const BudgetBreakdown = () => {
   });
 
   const handleAddInCategory = (categoryName: "needs" | "wants" | "savings") => {
-    console.log(categoryName);
     setBreakdown((prev) => {
       const addedItem = [...prev[categoryName], categoryAddition[categoryName]];
       console.log(addedItem);
