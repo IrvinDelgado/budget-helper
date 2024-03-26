@@ -5,6 +5,7 @@ import BudgetBreakdownAddition from "./BudgetBreakdownAddition";
 import BudgetBreakdownItems, {
   BudgetBreakdownItemsType,
 } from "./BudgetBreakdownItems";
+import BudgetNumber from "../BudgetNumber/BudgetNumber";
 
 const budgetCategories = ["Needs", "Wants", "Savings"] as const;
 const BUDGET_ITEM = { name: "", value: "" };
@@ -21,7 +22,10 @@ const budgetAddition = Object.fromEntries(
   budgetCategories.map((category) => [category, BUDGET_ITEM]),
 );
 
-const BudgetBreakdown = () => {
+interface IBudgetBreakdown {
+  monthlyIncome: number;
+}
+const BudgetBreakdown = ({ monthlyIncome }: IBudgetBreakdown) => {
   const [breakdown, setBreakdown] = useState<BudgetItems>(budgetBreakdown);
   const [budgetItem, setBudgetItem] = useState<BudgetAddition>(budgetAddition);
 
@@ -31,10 +35,26 @@ const BudgetBreakdown = () => {
         return <HomeIcon />;
       case "Wants":
         return <ShoppingCartIcon />;
-      case "Needs":
+      case "Savings":
         return <WalletIcon />;
       default:
         return <HomeIcon />;
+    }
+  };
+
+  const getCategoryCost = (category: string) => {
+    if (!monthlyIncome) {
+      return "";
+    }
+    switch (category) {
+      case "Needs":
+        return <BudgetNumber value={monthlyIncome * 0.5} />;
+      case "Wants":
+        return <BudgetNumber value={monthlyIncome * 0.3} />;
+      case "Savings":
+        return <BudgetNumber value={monthlyIncome * 0.2} />;
+      default:
+        return;
     }
   };
 
@@ -62,7 +82,7 @@ const BudgetBreakdown = () => {
       defaultValue={[budgetCategories[0]]}
       multiple
       classNames={{
-        root: "pt-4 w-full md:pr-4 md:w-full",
+        root: "pt-4 w-full",
         item: "bg-stone-200",
       }}
     >
@@ -70,7 +90,7 @@ const BudgetBreakdown = () => {
         return (
           <Accordion.Item value={categoryKey} key={categoryKey}>
             <Accordion.Control icon={getCategoryIcon(categoryKey)}>
-              {categoryKey}
+              {categoryKey} {getCategoryCost(categoryKey)}
             </Accordion.Control>
             <Accordion.Panel>
               {breakdown[categoryKey].map((item) => {
