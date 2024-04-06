@@ -10,7 +10,7 @@ const App = () => {
     <MantineProvider>
       <div className="h-screen w-screen bg-gradient-to-r from-slate-950 to-sky-950">
         <h1 className="p-4 text-4xl font-bold text-white">Budget Helper</h1>
-        <Stack className="m-auto mt-4 w-2/3">
+        <Stack className="m-auto p-4 w-screen">
           <BudgetCalculator
             monthlyIncome={monthlyIncome}
             setMonthlyIncome={setMonthlyIncome}
