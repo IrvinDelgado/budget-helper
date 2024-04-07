@@ -1,4 +1,4 @@
-import { Group, TextInput, NumberInput, ActionIcon } from "@mantine/core";
+import { Group, TextInput, NumberInput, ActionIcon, Stack } from "@mantine/core";
 import { PlusIcon } from "../../icons/Icons";
 import { useRef } from "react";
 
@@ -26,31 +26,33 @@ const BudgetBreakdownAddition = ({
   };
 
   return (
-    <Group className="pl-9 pt-4">
-      <TextInput
-        ref={itemNameRef}
-        classNames={{
-          input: "bg-slate-500 text-black font-bold bg-stone-300",
-        }}
-        placeholder="Name"
-        value={name}
-        onChange={handleOnNameChange}
-      />
-      <NumberInput
-        classNames={{
-          label: "font-bold",
-          input: "bg-slate-500 text-black font-bold bg-stone-300",
-        }}
-        placeholder="$0.00"
-        hideControls
-        thousandSeparator=","
-        prefix="$"
-        decimalScale={2}
-        fixedDecimalScale
-        value={value}
-        onChange={handleOnValueChange}
-        onKeyDown={handleOnKeyDown}
-      />
+    <Group className="pt-4">
+      <Stack className="w-5/6">
+        <TextInput
+          ref={itemNameRef}
+          classNames={{
+            input: "bg-slate-500 text-black font-bold bg-stone-300",
+          }}
+          placeholder="Name"
+          value={name}
+          onChange={handleOnNameChange}
+        />
+        <NumberInput
+          classNames={{
+            label: "font-bold",
+            input: "bg-slate-500 text-black font-bold bg-stone-300",
+          }}
+          placeholder="$0.00"
+          hideControls
+          thousandSeparator=","
+          prefix="$"
+          decimalScale={2}
+          fixedDecimalScale
+          value={value}
+          onChange={handleOnValueChange}
+          onKeyUp={handleOnKeyDown}
+        />
+       </Stack> 
       <ActionIcon
         disabled={!name || !value}
         variant="subtle"

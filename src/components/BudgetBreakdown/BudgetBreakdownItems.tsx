@@ -16,10 +16,10 @@ const BudgetBreakdownItems = ({
   onBreakdownRemoval,
 }: IBudgetBreakdownItems) => {
   return (
-    <Group className="pl-9" key={breakdownItem.name}>
-      <span className="w-1/4 pr-4 text-stone-700">{breakdownItem.name}</span>
+    <Group className="pt-2" key={breakdownItem.name}>
+      <span className="w-2/5 pr-2 text-stone-700">{breakdownItem.name}</span>
       <NumberFormatter
-        className={"w-1/4 font-bold text-red-700"}
+        className={"w-2/5 font-bold text-red-700"}
         prefix="$"
         value={breakdownItem.value}
         thousandSeparator
